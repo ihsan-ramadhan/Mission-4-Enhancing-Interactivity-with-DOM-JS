@@ -21,7 +21,7 @@
             <table class="min-w-full divide-y divide-gray-300">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course Name</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Credits</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
@@ -31,24 +31,17 @@
                     <?php if (!empty($courses)): ?>
                         <?php foreach ($courses as $course): ?>
                         <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                <?= $course['course_id'] ?>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                <?= $course['course_name'] ?>
-                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= $course['course_id'] ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= $course['course_name'] ?></td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                     <?= $course['credits'] ?> Credits
                                 </span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                                <a href="/course/edit/<?= $course['course_id'] ?>" 
-                                   class="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-white bg-indigo-600 hover:bg-indigo-700">
-                                    Edit
-                                </a>
-                                <button onclick="deleteCourse(<?= $course['course_id'] ?>)" 
-                                        class="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-white bg-red-600 hover:bg-red-700">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-4">
+                                <a href="/course/edit/<?= $course['course_id'] ?>" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                <button onclick="showConfirmationModal('Hapus Kursus', 'Anda yakin ingin menghapus kursus ini?', '/course/delete/<?= $course['course_id'] ?>', 'red')" 
+                                        class="text-red-600 hover:text-red-900">
                                     Delete
                                 </button>
                             </td>
@@ -61,8 +54,8 @@
                                     <svg class="w-12 h-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                                     </svg>
-                                    <p>No courses found</p>
-                                    <p class="text-xs text-gray-400 mt-1">Add your first course to get started</p>
+                                    <p class="font-semibold">No Courses Found</p>
+                                    <p class="text-xs text-gray-400 mt-1">Get started by adding a new course.</p>
                                 </div>
                             </td>
                         </tr>
@@ -73,11 +66,4 @@
     </div>
 </div>
 
-<script>
-function deleteCourse(courseId) {
-    if (confirm('Are you sure you want to delete this course?')) {
-        window.location.href = '/course/delete/' + courseId;
-    }
-}
-</script>
 <?= $this->endSection() ?>

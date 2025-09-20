@@ -47,13 +47,13 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <?php if (!isset($course['is_enrolled']) || !$course['is_enrolled']): ?>
-                                        <button onclick="enrollCourse(<?= $course['course_id'] ?>)" 
-                                                class="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-white bg-green-600 hover:bg-green-700">
+                                        <button onclick="showConfirmationModal('Konfirmasi Pendaftaran', 'Anda yakin ingin mengambil mata kuliah ini?', '/course/enroll/<?= $course['course_id'] ?>', 'green')" 
+                                                class="inline-flex items-center px-3 py-1 rounded text-green-600 hover:text-green-800">
                                             Enroll
                                         </button>
                                     <?php else: ?>
-                                        <button onclick="unenrollCourse(<?= $course['course_id'] ?>)" 
-                                                class="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-white bg-red-600 hover:bg-red-700">
+                                        <button onclick="showConfirmationModal('Konfirmasi Batal', 'Anda yakin ingin membatalkan mata kuliah ini?', '/course/unenroll/<?= $course['course_id'] ?>', 'red')" 
+                                                class="inline-flex items-center px-1 py-1 font-medium rounded text-red-600 hover:text-red-800">
                                             Unenroll
                                         </button>
                                     <?php endif; ?>
@@ -102,8 +102,8 @@
                                     <?= date('d/m/Y', strtotime($course['enroll_date'])) ?>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <button onclick="unenrollCourse(<?= $course['course_id'] ?>)" 
-                                            class="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-white bg-red-600 hover:bg-red-700">
+                                    <button onclick="showConfirmationModal('Konfirmasi Batal', 'Anda yakin ingin membatalkan mata kuliah ini?', '/course/unenroll/<?= $course['course_id'] ?>', 'red')" 
+                                            class="inline-flex items-center px-1 py-1 font-medium rounded text-red-600 hover:text-red-800">
                                         Unenroll
                                     </button>
                                 </td>
@@ -140,18 +140,4 @@
         </div>
     </div>
 </div>
-
-<script>
-function enrollCourse(courseId) {
-    if (confirm('Are you sure you want to enroll in this course?')) {
-        window.location.href = '/course/enroll/' + courseId;
-    }
-}
-
-function unenrollCourse(courseId) {
-    if (confirm('Are you sure you want to unenroll from this course?')) {
-        window.location.href = '/course/unenroll/' + courseId;
-    }
-}
-</script>
 <?= $this->endSection() ?>

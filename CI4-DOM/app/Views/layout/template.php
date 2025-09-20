@@ -73,7 +73,7 @@
                                 <?= session()->getFlashdata('success') ?>
                             </div>
                         </div>
-                        <button type="button" onclick="closeFlashMessage(this)" class="ml-4 -mr-1 p-1 rounded-md hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-green-600 transition">
+                        <button type="button" onclick="closeFlashMessage(this)" class="ml-4 -mr-1 p-1 rounded-md hover:bg-green-100">
                             <span class="sr-only">Dismiss</span>
                             <svg class="h-5 w-5 text-green-700" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
@@ -117,14 +117,71 @@
                 <p>&copy; 2025 Campus App. All rights reserved.</p>
             </div>
         </div>
+        <div id="confirmationModal" class="fixed inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center hidden z-50 transition-opacity duration-300 ease-in-out opacity-0">
+        <div class="bg-white rounded-lg shadow-xl p-6 m-4 max-w-sm w-full transform transition-all duration-300 ease-in-out scale-95">
+            <div class="flex items-center">
+                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-red-100 flex items-center justify-center">
+                    <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h3 id="modalTitle" class="text-lg font-medium text-gray-900">Konfirmasi Tindakan</h3>
+                </div>
+            </div>
+            <p id="modalMessage" class="text-sm text-gray-600 mt-4">Apakah Anda yakin ingin melanjutkan tindakan ini? Aksi ini tidak dapat diurungkan.</p>
+            <div class="mt-6 flex justify-end space-x-3">
+                <button id="modalCancel" type="button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition">
+                    Batal
+                </button>
+                <a id="modalConfirm" href="#" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">
+                    Yakin
+                </a>
+            </div>
+        </div>
+    </div>
     </footer>
 
     <script>
+        const modal = document.getElementById('confirmationModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalConfirm = document.getElementById('modalConfirm');
+        const modalCancel = document.getElementById('modalCancel');
+
+        function showConfirmationModal(title, message, confirmUrl, buttonColor = 'red') {
+                modalTitle.textContent = title;
+                modalMessage.textContent = message;
+                modalConfirm.href = confirmUrl;
+
+                modalConfirm.classList.remove('bg-red-600', 'hover:bg-red-700', 'bg-green-600', 'hover:bg-green-700');
+                
+                if (buttonColor === 'green') {
+                    modalConfirm.classList.add('bg-green-600', 'hover:bg-green-700');
+                } else {
+                    modalConfirm.classList.add('bg-red-600', 'hover:bg-red-700');
+                }
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modal.querySelector('div').classList.remove('scale-95');
+                }, 10);
+            }
+
+        function hideModal() {
+            modal.classList.add('opacity-0');
+            modal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
         function logout() {
             if (confirm('Apakah Anda yakin ingin logout?')) {
                 window.location.href = '/logout';
             }
         }
+
         function closeFlashMessage(buttonElement) {
             const flashMessageDiv = buttonElement.closest('.flash-message');
 
@@ -136,6 +193,13 @@
                     flashMessageDiv.remove();
                 }, 300);
             }
+        }
+        
+        modalCancel.addEventListener('click', hideModal);
+
+        const logoutButton = document.querySelector('button[onclick="logout()"]');
+        if (logoutButton) {
+            logoutButton.setAttribute('onclick', "showConfirmationModal('Konfirmasi Logout', 'Apakah Anda yakin ingin keluar?', '/logout', 'red')");
         }
     </script>
 </body>
