@@ -4,7 +4,7 @@
 <div class="space-y-8">
     <div>
         <h1 class="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-        <p class="mt-2 text-gray-600">Ringkasan data kursus dan mahasiswa dalam sistem</p>
+        <p class="mt-2 text-gray-600">View courses and students from this dashboard</p>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -27,7 +27,7 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course Name</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Credits</th>
-                            </tr>
+                        </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         <?php if (!empty($courses)): ?>
@@ -36,11 +36,11 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= $course['course_id'] ?></td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= $course['course_name'] ?></td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    <span class="inline-flex items-center px-2.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                         <?= $course['credits'] ?> Credits
                                     </span>
                                 </td>
-                                </tr>
+                            </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
@@ -74,7 +74,7 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Year</th>
-                            </tr>
+                        </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         <?php if (!empty($students)): ?>
@@ -82,13 +82,13 @@
                             <tr class="hover:bg-gray-50">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= $student['student_id'] ?></td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= $student['full_name'] ?></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= $student['username'] ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= $student['username'] ?></td> 
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= $student['entry_year'] ?></td>
-                                </tr>
+                            </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="4" class="px-6 py-8 text-center text-sm text-gray-500">
+                                <td colspan="3" class="px-6 py-8 text-center text-sm text-gray-500">
                                     No students available
                                 </td>
                             </tr>

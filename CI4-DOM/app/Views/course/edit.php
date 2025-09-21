@@ -1,7 +1,7 @@
 <?= $this->extend('layout/template') ?>
 
 <?= $this->section('content') ?>
-<div class="max-w-md mx-auto">
+<div class="mt-16 max-w-md mx-auto">
     <div class="bg-white shadow rounded-lg p-6">
         <div class="mb-6">
             <h2 class="text-2xl font-bold text-gray-900">Edit Course</h2>

@@ -21,6 +21,12 @@
 <body class="bg-gray-50 min-h-screen flex flex-col">
     <!-- Navbar -->
     <?php if (session()->get('logged_in')): ?>
+    <?php
+        $current_path = uri_string();
+
+        $activeClass = 'text-primary border-b-2 border-primary';
+        $inactiveClass = 'text-gray-700 hover:text-primary border-b-2 border-transparent';
+    ?>
     <nav class="bg-white shadow-lg border-b">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between h-16">
@@ -29,25 +35,36 @@
                         <span class="text-xl font-bold text-primary">Campus App</span>
                     </div>
                     <div class="hidden md:flex items-center space-x-4">
-                        <a href="/dashboard" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                            Dashboard
+                        
+                        <a href="/dashboard" 
+                           class="<?= ($current_path == 'dashboard') ? $activeClass : $inactiveClass ?> px-3 py-2 text-sm font-medium transition-colors">
+                           Dashboard
                         </a>
+
                         <?php if (session()->get('role') === 'admin'): ?>
-                            <a href="/course" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                                Manage Courses
-                            </a>
-                            <a href="/student" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                                Manage Students
-                            </a>
+                        <a href="/course" 
+                           class="<?= (str_starts_with($current_path, 'course')) ? $activeClass : $inactiveClass ?> px-3 py-2 text-sm font-medium transition-colors">
+                           Manage Courses
+                        </a>
+                        
+                        <a href="/student" 
+                           class="<?= (str_starts_with($current_path, 'student')) ? $activeClass : $inactiveClass ?> px-3 py-2 text-sm font-medium transition-colors">
+                           Manage Students
+                        </a>
                         <?php endif; ?>
+
                     </div>
                 </div>
-                <div class="flex items-center space-x-4">
+                <div class="hidden md:flex items-center space-x-4">
                     <span class="text-sm text-gray-600">
-                        Welcome, <span class="font-medium"><?= session()->get('full_name') ?></span> 
-                        (<span class="text-primary"><?= ucfirst(session()->get('role')) ?></span>)
+                        Welcome, <strong class="font-medium"><?= session()->get('full_name') ?></strong> 
+                        (<span class="text-primary">
+                            <?= ucfirst(session()->get('role')) ?>
+                        </span>)
                     </span>
-                    <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+
+                    <button onclick="showConfirmationModal('Konfirmasi Logout', 'Apakah Anda yakin ingin keluar?', '/logout', 'red')"
+                            class="bg-red-600 text-white hover:bg-red-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                         Logout
                     </button>
                 </div>

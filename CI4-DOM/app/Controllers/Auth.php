@@ -56,38 +56,6 @@ class Auth extends BaseController
         return view('auth/login');
     }
 
-    public function register()
-    {
-        if ($this->request->getMethod() === 'POST') {
-            $userData = [
-                'username' => $this->request->getPost('username'),
-                'password' => $this->request->getPost('password'),
-                'role' => $this->request->getPost('role'),
-                'full_name' => $this->request->getPost('full_name')
-            ];
-
-            // Validasi sederhana
-            if (empty($userData['username']) || empty($userData['password']) || empty($userData['full_name'])) {
-                return redirect()->back()->with('error', 'Semua field harus diisi!');
-            }
-
-            $userId = $this->userModel->createUser($userData);
-
-            if ($userId && $userData['role'] === 'student') {
-                // Buat record student
-                $studentData = [
-                    'entry_year' => $this->request->getPost('entry_year'),
-                    'user_id' => $userId
-                ];
-                $this->studentModel->insert($studentData);
-            }
-
-            return redirect()->to('/login')->with('success', 'Registrasi berhasil! Silakan login.');
-        }
-
-        return view('auth/register');
-    }
-
     public function logout()
     {
         session()->destroy();
