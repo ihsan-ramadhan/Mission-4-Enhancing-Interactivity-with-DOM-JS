@@ -106,6 +106,12 @@ class Course extends BaseController
     {
         // Only student can enroll
         if (!session()->get('logged_in') || session()->get('role') !== 'student') {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Akses ditolak!'
+                ]);
+            }
             return redirect()->to('/dashboard')->with('error', 'Akses ditolak!');
         }
 
@@ -114,17 +120,42 @@ class Course extends BaseController
         // Check if course exists
         $course = $this->courseModel->find($course_id);
         if (!$course) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Course tidak ditemukan!'
+                ]);
+            }
             return redirect()->to('/dashboard')->with('error', 'Course tidak ditemukan!');
         }
         
         try {
             if ($this->takesModel->enrollCourse($student_id, $course_id)) {
+                if ($this->request->isAJAX()) {
+                    return $this->response->setJSON([
+                        'success' => true,
+                        'message' => 'Berhasil mendaftar mata kuliah: ' . $course['course_name'] . '!',
+                        'course' => $course
+                    ]);
+                }
                 return redirect()->to('/dashboard')->with('success', 'Berhasil mendaftar mata kuliah: ' . $course['course_name'] . '!');
             } else {
+                if ($this->request->isAJAX()) {
+                    return $this->response->setJSON([
+                        'success' => false,
+                        'message' => 'Gagal mendaftar mata kuliah atau sudah terdaftar sebelumnya!'
+                    ]);
+                }
                 return redirect()->to('/dashboard')->with('error', 'Gagal mendaftar mata kuliah atau sudah terdaftar sebelumnya!');
             }
         } catch (\Exception $e) {
             log_message('error', 'Enrollment error: ' . $e->getMessage());
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Terjadi kesalahan saat mendaftar mata kuliah!'
+                ]);
+            }
             return redirect()->to('/dashboard')->with('error', 'Terjadi kesalahan saat mendaftar mata kuliah!');
         }
     }
@@ -133,6 +164,12 @@ class Course extends BaseController
     {
         // Only student can unenroll
         if (!session()->get('logged_in') || session()->get('role') !== 'student') {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Akses ditolak!'
+                ]);
+            }
             return redirect()->to('/dashboard')->with('error', 'Akses ditolak!');
         }
 
@@ -141,17 +178,42 @@ class Course extends BaseController
         // Check if course exists
         $course = $this->courseModel->find($course_id);
         if (!$course) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Course tidak ditemukan!'
+                ]);
+            }
             return redirect()->to('/dashboard')->with('error', 'Course tidak ditemukan!');
         }
         
         try {
             if ($this->takesModel->unenrollCourse($student_id, $course_id)) {
+                if ($this->request->isAJAX()) {
+                    return $this->response->setJSON([
+                        'success' => true,
+                        'message' => 'Berhasil membatalkan pendaftaran mata kuliah: ' . $course['course_name'] . '!',
+                        'course' => $course
+                    ]);
+                }
                 return redirect()->to('/dashboard')->with('success', 'Berhasil membatalkan pendaftaran mata kuliah: ' . $course['course_name'] . '!');
             } else {
+                if ($this->request->isAJAX()) {
+                    return $this->response->setJSON([
+                        'success' => false,
+                        'message' => 'Gagal membatalkan pendaftaran mata kuliah!'
+                    ]);
+                }
                 return redirect()->to('/dashboard')->with('error', 'Gagal membatalkan pendaftaran mata kuliah!');
             }
         } catch (\Exception $e) {
             log_message('error', 'Unenrollment error: ' . $e->getMessage());
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Terjadi kesalahan saat membatalkan pendaftaran mata kuliah!'
+                ]);
+            }
             return redirect()->to('/dashboard')->with('error', 'Terjadi kesalahan saat membatalkan pendaftaran mata kuliah!');
         }
     }

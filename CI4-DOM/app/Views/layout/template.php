@@ -166,24 +166,37 @@
         const modalConfirm = document.getElementById('modalConfirm');
         const modalCancel = document.getElementById('modalCancel');
 
-        function showConfirmationModal(title, message, confirmUrl, buttonColor = 'red') {
-                modalTitle.textContent = title;
-                modalMessage.textContent = message;
-                modalConfirm.href = confirmUrl;
+        function showConfirmationModal(title, message, confirmUrl, buttonColor = 'red', confirmAction = null) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
 
-                modalConfirm.classList.remove('bg-red-600', 'hover:bg-red-700', 'bg-green-600', 'hover:bg-green-700');
-                
-                if (buttonColor === 'green') {
-                    modalConfirm.classList.add('bg-green-600', 'hover:bg-green-700');
-                } else {
-                    modalConfirm.classList.add('bg-red-600', 'hover:bg-red-700');
-                }
-                modal.classList.remove('hidden');
-                setTimeout(() => {
-                    modal.classList.remove('opacity-0');
-                    modal.querySelector('div').classList.remove('scale-95');
-                }, 10);
+            modalConfirm.className = `px-4 py-2 text-white rounded-md`;
+            if (buttonColor === 'red') {
+                modalConfirm.classList.add('bg-red-600', 'hover:bg-red-700');
+            } else if (buttonColor === 'green') {
+                modalConfirm.classList.add('bg-green-600', 'hover:bg-green-700');
+            } else {
+                modalConfirm.classList.add('bg-blue-600', 'hover:bg-blue-700');
             }
+
+            if (confirmAction && typeof confirmAction === 'function') {
+                modalConfirm.href = '#'
+                modalConfirm.onclick = (event) => {
+                    event.preventDefault();
+                    confirmAction();
+                    hideModal();
+                };
+            } else {
+                modalConfirm.href = confirmUrl;
+                modalConfirm.onclick = null;
+            }
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.querySelector('div').classList.remove('scale-95');
+            }, 10);
+        }
 
         function hideModal() {
             modal.classList.add('opacity-0');
@@ -193,19 +206,11 @@
             }, 300);
         }
 
-        function logout() {
-            if (confirm('Apakah Anda yakin ingin logout?')) {
-                window.location.href = '/logout';
-            }
-        }
-
         function closeFlashMessage(buttonElement) {
             const flashMessageDiv = buttonElement.closest('.flash-message');
-
             if (flashMessageDiv) {
                 flashMessageDiv.style.transition = 'opacity 0.3s ease-out';
                 flashMessageDiv.style.opacity = '0';
-
                 setTimeout(() => {
                     flashMessageDiv.remove();
                 }, 300);

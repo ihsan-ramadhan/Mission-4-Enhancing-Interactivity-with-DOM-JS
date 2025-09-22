@@ -25,7 +25,9 @@ $routes->get('/course/delete/(:num)', 'Course::delete/$1');
 
 // Enrollment routes
 $routes->get('/course/enroll/(:num)', 'Course::enroll/$1');
+$routes->post('/course/enroll/(:num)', 'Course::enroll/$1');
 $routes->get('/course/unenroll/(:num)', 'Course::unenroll/$1');
+$routes->post('/course/unenroll/(:num)', 'Course::unenroll/$1');
 
 // Student management routes
 $routes->get('/student', 'Student::index');
