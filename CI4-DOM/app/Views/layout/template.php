@@ -113,7 +113,7 @@
                                 <?= session()->getFlashdata('error') ?>
                             </div>
                         </div>
-                        <button type="button" onclick="closeFlashMessage(this)" class="ml-4 -mr-1 p-1 rounded-md hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-red-50 focus:ring-red-600 transition">
+                        <button type="button" onclick="closeFlashMessage(this)" class="ml-4 -mr-1 p-1 rounded-md hover:bg-red-100">
                             <span class="sr-only">Dismiss</span>
                             <svg class="h-5 w-5 text-red-700" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
