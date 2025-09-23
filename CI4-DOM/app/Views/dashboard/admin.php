@@ -7,7 +7,7 @@
         <p class="mt-2 text-gray-600">View courses and students from this dashboard</p>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:items-start">
         <div class="bg-white shadow rounded-lg p-6">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-xl font-semibold text-gray-900">Manage Courses</h2>

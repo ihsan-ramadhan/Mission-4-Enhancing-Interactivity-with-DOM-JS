@@ -50,10 +50,21 @@ class Dashboard extends BaseController
     {
         $student_id = session()->get('student_id');
         
+        $allCourses = $this->courseModel
+            ->select('courses.*, takes.enroll_date, takes.student_id AS is_enrolled_flag')
+            ->join('takes', "takes.course_id = courses.course_id AND takes.student_id = {$student_id}", 'left')
+            ->orderBy('courses.course_name', 'ASC')
+            ->findAll();
+
+        $processedCourses = array_map(function ($course) {
+            $course['is_enrolled'] = !is_null($course['is_enrolled_flag']);
+            unset($course['is_enrolled_flag']);
+            return $course;
+        }, $allCourses);
+
         $data = [
             'title' => 'Student Dashboard',
-            'available_courses' => $this->courseModel->getAllCoursesForStudent($student_id),
-            'enrolled_courses' => $this->takesModel->getStudentCourses($student_id)
+            'available_courses' => $processedCourses,
         ];
         
         return view('dashboard/student', $data);
